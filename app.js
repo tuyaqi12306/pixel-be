@@ -4,16 +4,16 @@ const SocketIO = require('socket.io')
 
 const app = express()
 const port = 3005
-const server = app.linsten(port, () => {
-
+const server = app.listen(port, () => {
+  console.log('listenning on port', port)
 })
 const io = SocketIO(server)
 // app.use(express.static(''))
 const pixelData = [
-  ['red','blue','green'],
-  ['red','blue','green'],
-  ['red','blue','green'],
-  ['red','blue','green']
+  ['red','blue','green','black'],
+  ['red','blue','green','black'],
+  ['red','blue','green','black'],
+  ['red','blue','green','black']
 ]
 io.on('connection', (ws) => { // 服务器连接
   ws.emit('pixel-data', pixelData)
@@ -21,3 +21,5 @@ io.on('connection', (ws) => { // 服务器连接
     console.log('someone leaves')
   })
 })
+
+// 启动：node app.js
