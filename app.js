@@ -18,15 +18,12 @@ const pixelData = [
 let clients = []
 io.on('connection', (socket) => { // 服务器连接
   clients.push(socket)
-  socket.emit('pixel-data', pixelData)
+  socket.emit('init-pixel-data', pixelData)
 
   socket.on('draw-dot', ({row,col,color}) => { // 点击画板改颜色
     pixelData[row][col] = color
     socket.broadcast.emit('updata-dot', {row,col,color}) // 广播给其他每一个连接的客户端
     socket.emit('updata-dot', {row,col,color}) // 给自己发一份
-    // clients.forEach(client => {
-    //   client.emit('update-dot', {row,col,color})
-    // })
   })
   socket.on('disconnect', () => { // 关闭连接
     clients = clients.filter(it => it !== socket)
